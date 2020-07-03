@@ -1,50 +1,33 @@
 //Get Compontents
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-import '../css/App.css';
-import PropTypes from 'prop-types';
-import checkboxes from './checkboxes';
-import Checkbox from './Checkbox';
+import '../css/character.scss';
+//import checkboxes from './checkboxes';
+//import Checkbox from './Checkbox';
 
 class Body extends Component {
     constructor(props) {
         super ();
         this.state = {
             displayRace: "",
-            displayClass: "",
+            displayCharClass: "",
             displayBackground: "",
             msg: "",
-            characterCheckboxes: new Map()
-            
+            //characterCheckboxes: new Map()            
         }
+        //Create a new character to store data
+       //this.newCharacter = new Character();
+
         //Functions for Generator
-  /*       this.pushRace = this.pushRace.bind(this);
-        this.pushClass = this.pushClass.bind(this);
-        this.pushBackground = this.pushBackground.bind(this); */
         this.generateCharacter = this.generateCharacter.bind(this);
 
         //Functions for Checkbox
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+/*         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this); */
     }
 
-/*     //Randomly determine a Race based on selected book
-    pushRace(){
-        let text = this.props.data.race[Math.floor(Math.random() * this.props.data.race.length)];
-        this.setState ({displayRace: text});
-    }
 
-    //Randomly determine a Class
-    pushClass(){
-        let text = this.props.data.class[Math.floor(Math.random() * this.props.data.class.length)];
-        this.setState ({displayClass: text});
-    }
 
-    //Randomly determine a Background
-    pushBackground(){
-        let text = this.props.data.background[Math.floor(Math.random() * this.props.data.background.length)];
-        this.setState ({displayBackground: text});
-    } */
 
     //Randomly generate a new character, compare locked choices
     generateCharacter(){
@@ -53,21 +36,25 @@ class Body extends Component {
         this.setState ({displayRace: randRace});
         //Random a Class
         let randClass = this.props.data.class[Math.floor(Math.random() * this.props.data.class.length)];
-        this.setState ({displayClass: randClass});
+        this.setState ({displayCharClass: randClass});
         //Random a Background
         let randBackground = this.props.data.background[Math.floor(Math.random() * this.props.data.background.length)];
         this.setState ({displayBackground: randBackground});
+
+        //Set generated data for new Character 
+        //this.newCharacter = new Character({displayRace: randRace}, {displayCharClass: randClass}, {displayBackground: randBackground});
+        //this.newCharacter.setCharacterRace({randRace});
     }
 
 
     //Validate checkbox data & store selected
 
-        Checkbox = ({ type = 'checkbox', name, checked = false, onChange }) => (
+/*         Checkbox = ({ type = 'checkbox', name, checked = false, onChange }) => (
             <input type={type} name={name} checked={checked} onChange={onChange} />
-        );
+        ); */
           
 
-          handleChange(e) {
+/*           handleChange(e) {
             const item = e.target.name;
             const isChecked = e.target.checked;
             this.setState(prevState => ({ characterCheckboxes: prevState.characterCheckboxes.set(item, isChecked) }));
@@ -82,7 +69,7 @@ class Body extends Component {
             alert('These boxes were checked: ' + value);
             event.preventDefault();
           }
-
+ */
     //Set generated data to pass back
     render() {
         return (
@@ -98,14 +85,15 @@ class Body extends Component {
                         {this.state.displayRace}
 
                         <h1>Class</h1>
-                        {this.state.displayClass}
+                        {this.state.displayCharClass}
 
                         <h1>Background</h1>
                         {this.state.displayBackground}
                         {/* Character Checkboxs */}
                         <div>
-                            <p>What would you like to keep about this character?</p>
+{/*                             <p>What would you like to keep about this character?</p>
                             <p>{this.state.msg}</p>
+                            <Character race={this.state.displayRace} charClass={this.state.displayCharClass} background={this.state.displayBackground} />
                             <form onSubmit={this.handleSubmit}>
                            <div>
                                 {
@@ -117,10 +105,21 @@ class Body extends Component {
                                 ))
                                 }
                             </div>
+{/*                             <div>
+                                {
+                                newCharacter.map(item => (
+                                    <label key={item.key}>
+                                    {item.name}
+                                    {item.value}
+                                    <Character name={item.name} value={item.value} race={item.race} charClass={item.charClass} background={item.background} />
+                                    </label>
+                                ))
+                                }
+                            </div> }
                             <div>
                                 <input type="submit" value="Regenerate Character" />
                             </div>
-                            </form>
+                            </form> */}
                         </div>
                     </div>
                 </div>

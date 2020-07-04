@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/Button';
-//import '../css/character.scss';
+import '../css/App.scss';
+import { Container, Row, Col } from 'react-bootstrap';
+
 
 class Character extends Component {
   constructor(props) {
@@ -20,17 +22,17 @@ class Character extends Component {
 
   //Set Specific Race
   setCharacterRace(givenData){
-    this.state.race = givenData;
+    this.setState.race = givenData;
   };
 
   //Set Specific Class
   setCharacterClass(givenData){
-    this.state.charClass = givenData;
+    this.setState.charClass = givenData;
   };
 
   //Set Sepcific Background
   setCharacterBackground(givenData){
-    this.state.background = givenData;
+    this.setState.background = givenData;
   };
 
 
@@ -64,21 +66,24 @@ class Character extends Component {
           <Button className="button" bsSize="large" onClick={this.generateCharacter}>Generate New Character</Button>
       </div>
       {/*Display Area for Current Character*/}
-      <div className="display">
-          <div className="script">
+      <Container>
+        <Row>
+          <Col>
             <h1>Race</h1>
             {this.state.race}
-
+          </Col>
+          <Col>
             <h1>Class</h1>
             {this.state.charClass}
-
+          </Col>
+          <Col>
             <h1>Background</h1>
             {this.state.background}
-
+          </Col>
+        </Row>
             {/*Display Current Character*/}
-            <p>This is the current character</p>
-    </div>
-    </div>
+            <p>This is your current character: {this.state.race + " " + this.state.charClass + " " + this.state.background}</p>
+    </Container>
     </div>
     );
   }

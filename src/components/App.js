@@ -11,54 +11,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 //Get possible Charater Data
 import data from '../data/characters.json'
 
-class createCharacter extends Component {
-  constructor(props) {
-    super(props);
-    this.generateCharacter = this.generateCharacter.bind(this);
-  
-  }//End Constructor 
-
-  //Randomly generate a new character, compare locked choices
-  generateCharacter(){
-    //Random a Race
-    let randRace = this.props.data.race[Math.floor(Math.random() * this.props.data.race.length)];
-    //Random a Class
-    let randClass = this.props.data.class[Math.floor(Math.random() * this.props.data.class.length)];
-    //Random a Background
-    let randBackground = this.props.data.background[Math.floor(Math.random() * this.props.data.background.length)];
-
-    //Set new chracter
-    this.setState ({race: randRace, charClass: randClass, background: randBackground});
-
-  }
-  //Display Current Character
-  render() {
-    return (
-      <div>
-        See me?
-{/*        <Button className="button" bsSize="large" onClick={this.generateCharacter}>Generate New Character</Button>
-        <Row>
-          <Col>
-            <h1>Race</h1>
-            {this.state.randRace}
-          </Col>
-          <Col>
-            <h1>Class</h1>
-            {this.state.randClass}
-          </Col>
-          <Col>
-            <h1>Background</h1>
-            {this.state.randBackground}
-          </Col>
-        </Row>*/}
-      </div>
-    );
-  }
-}
-
-
-
-
 //Current Character data stored
 class savedCharacter extends Component {
   render() {
@@ -70,7 +22,7 @@ class savedCharacter extends Component {
 }
 
 
-    //Prompt user if they would like to store any of the current values and roll again
+//Prompt user if they would like to store any of the current values and roll again
 //Select parts of character to keep and re-generate the rest
 class selectedData extends Component {
   constructor(props) {
@@ -132,18 +84,6 @@ class selectedData extends Component {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class App extends Component {
   constructor (props) {
     super(props);
@@ -184,13 +124,18 @@ class App extends Component {
     });
   }
 
-  //Checkbox Handler for Background
-  handleGenerateCharacter(race, charClass, background) {
-    this.setState({
-      race: race,
-      charClass: charClass,
-      background: background
-    });
+  //Randomly generate a new character, compare locked choices
+  handleGenerateCharacter(){
+    //Random a Race
+    let randRace = data.dataRace[Math.floor(Math.random() * data.dataRace.length)];
+    //Random a Class
+    let randClass = data.dataClass[Math.floor(Math.random() * data.dataClass.length)];
+    //Random a Background
+    let randBackground = data.dataBackground[Math.floor(Math.random() * data.dataBackground.length)];
+
+    //Set new chracter
+    this.setState ({race: randRace, charClass: randClass, background: randBackground});
+
   }
 
   render() {
@@ -207,13 +152,25 @@ class App extends Component {
           </Row>
           <br />
           {/*Display Area for Current Character*/}
-          {/* <Row>  */}
           <div>
-
-            </div>
-          {/* </Row> */}
+          <Button className="button" bsSize="large" onClick={this.handleGenerateCharacter}>Generate New Character</Button>
+            <Row>
+              <Col>
+                <h1>Race</h1>
+                {this.state.race}
+              </Col>
+              <Col>
+                <h1>Class</h1>
+                {this.state.charClass}
+              </Col>
+              <Col>
+                <h1>Background</h1>
+                {this.state.background}
+              </Col>
+            </Row>
+          </div>
           {/*Selection to save data via checkboxes*/}
-{/*           <Row>
+          <Row>
             <selectedData 
             
             

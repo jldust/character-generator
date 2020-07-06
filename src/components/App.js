@@ -83,37 +83,10 @@ class App extends Component {
         race: "",
         charClass: "",
         background: "",
-        chosenRace: false,
-        chosenClass: false,
-        chosenBackground: false
       };
   
     //Bind Checkboxes & Generator Button
-    this.handleRaceChange = this.handleRaceChange.bind(this);
-    this.handleClassChange = this.handleClassChange.bind(this);
-    this.handleBackgroundChange = this.handleBackgroundChange.bind(this);
     this.handleGenerateCharacter = this.handleGenerateCharacter.bind(this);
-  }
-
-  //Checkbox Handler for Race
-  handleRaceChange(chosenRace) {
-    this.setState({
-      chosenRace: chosenRace
-    });
-  }
-
-  //Checkbox Handler for Class
-  handleClassChange(chosenClass) {
-    this.setState({
-      chosenClass: chosenClass
-    });
-  }
-
-  //Checkbox Handler for Background
-  handleBackgroundChange(chosenBackground) {
-    this.setState({
-      chosenBackground: chosenBackground
-    });
   }
 
   //Randomly generate a new character, compare locked choices
@@ -127,6 +100,11 @@ class App extends Component {
 
     //Set new chracter
     this.setState ({race: randRace, charClass: randClass, background: randBackground});
+    this.setState ({currentChar: {race: randRace, charClass: randClass, background: randBackground}});
+
+    const currentChar = this.state.map((this) =>
+  <li>{this}</li>
+);
 
   }
 
@@ -161,12 +139,11 @@ class App extends Component {
               </Col>
             </Row>
           </div>
+          <br />
+          {this.state.currentChar}
         </Container>
-        <Container>
-          <Row>
-            <SelectedData data={data} />
-          </Row>
-        </Container>
+        {/* Call in Character selection and saved output*/}
+          <SelectedData data={this.state.race, this.state.charClass, this.state.background} />
 
         {/* <Character data={data} /> */}
         {/* <Footer data={data} />*/}

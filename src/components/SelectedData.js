@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 //Get Compontents & Style
 import '../css/App.scss';
+import { Container, Row, Col } from 'react-bootstrap';
 
 
 //Prompt user if they would like to store any of the current values and roll again
@@ -9,6 +10,7 @@ import '../css/App.scss';
 class SelectedData extends Component {
   constructor(props) {
     super(props);
+    const currentCharacter = props.data;
     this.state = {
       categories: [
         {id: 'race', value: "Keep Current Race"},
@@ -27,7 +29,7 @@ class SelectedData extends Component {
     var isChecked = event.target.checked;
     var item = event.target.value;
 
-    this.props.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+    this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
   }
 
 
@@ -41,20 +43,29 @@ class SelectedData extends Component {
 
   render() {
     return (
-      <div>
-          <form onSubmit={this.handleSubmit}>
-          {
+      <Container>
+        <form onSubmit={this.handleSubmit}>
+          <Row>{
             this.state.categories.map(item => (
-              <label>
-                <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
-              </label>
+              <Col>
+                <label>
+                  <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
+                </label>
+              </Col>
             ))
           }
-
-          <br />
-          <input type="submit" value="Re-Generate with Seletions" />
+          </Row>
+          <Row>
+            <Col>
+              <br />
+              <input type="submit" value="Re-Generate with Seletions" />
+            </Col>
+          </Row>
         </form>
-      </div>
+        <Row>
+          {/*currentCharacter.state*/}
+        </Row>
+    </Container>
     );
   }
 }

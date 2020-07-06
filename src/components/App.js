@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 //Get Compontents & Style
 import '../css/App.scss';
-//import Character from './Character'
+import SelectedData from './SelectedData';
 //import Footer from './footer'
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -24,66 +24,58 @@ class savedCharacter extends Component {
 
 //Prompt user if they would like to store any of the current values and roll again
 //Select parts of character to keep and re-generate the rest
-class selectedData extends Component {
+/*class selectedData extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      categories: [
+        {id: 'race', value: "Keep Current Race"},
+        {id: 'class', value: "Keep Current Class"},
+        {id: 'background', value: "Keep Current Background"}
+      ],
+      checkedItems: new Map ()
+    }
 
     //Attach Handlers for Checkboxes
-    this.handleRaceChange = this.handleRaceChange.bind(this);
-    this.handleClassChange = this.handleClassChange.bind(this);
-    this.handleBackgroundChange = this.handleBackgroundChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-  //Was Checkbox checked?
-  handleRaceChange(e) {
-    this.props.onRaceChange(e.target.checked);
+
+  //Something happened with the Checkbox
+  handleChange(event) {
+    var isChecked = event.target.checked;
+    var item = event.target.value;
+
+    this.props.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
   }
-  //Was Checkbox checked?
-  handleClassChange(e) {
-    this.props.onClassChange(e.target.checked);
-  }
-  //Was Checkbox checked?
-  handleBackgroundChange(e) {
-    this.props.onBackgroundChange(e.target.checked);
+
+
+  //Want to update character generated
+  handleSubmit(event) {
+    console.log("See Me?");
+    console.log(this.props.state);
+    event.preventDefault();
   }
 
 
   render() {
     return ( 
-      <form>
-        <p>
-          <input
-            type="checkbox"
-            checked={this.props.chosenRace}
-            onChange={this.handleRaceChange}
-            />
-          {' '}
-          Keep current race
-        </p>
-        <p>
-          <input
-            type="checkbox"
-            checked={this.props.chosenClass}
-            onChange={this.handleClassChange}
-             />
-          {' '}
-          Keep current class
-        </p>
-        <p>
-          <input
-            type="checkbox"
-            checked={this.props.chosenBackground}
-            onChange={this.handleBackgroundChange}
-            />
-          {' '}
-          Keep current background
-        </p>
+      <form onSubmit={this.handleSubmit}>
+        {
+          this.state.categories.map(item => (
+            <label>
+              <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
+            </label>
+          ))
+        }
+
+        <br />
+        <input type="submit" value="Re-Generate with Seletions" />
       </form>
     );
-
   }
-}
+} */
 
-
+//Main Application
 class App extends Component {
   constructor (props) {
     super(props);
@@ -153,7 +145,7 @@ class App extends Component {
           <br />
           {/*Display Area for Current Character*/}
           <div>
-          <Button className="button" bsSize="large" onClick={this.handleGenerateCharacter}>Generate New Character</Button>
+          <Button className="button" onClick={this.handleGenerateCharacter}>Generate New Character</Button>
             <Row>
               <Col>
                 <h1>Race</h1>
@@ -169,17 +161,11 @@ class App extends Component {
               </Col>
             </Row>
           </div>
-          {/*Selection to save data via checkboxes*/}
+        </Container>
+        <Container>
           <Row>
-            <selectedData 
-            
-            
-            />
+            <SelectedData data={data} />
           </Row>
-          {/*Display Current Character}
-          <Row>
-            <savedCharacter />
-          </Row>*/}
         </Container>
 
         {/* <Character data={data} /> */}
@@ -188,23 +174,5 @@ class App extends Component {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export default App;

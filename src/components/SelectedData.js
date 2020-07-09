@@ -10,12 +10,36 @@ import { Container, Row, Col } from 'react-bootstrap';
 class SelectedData extends Component {
   constructor(props) {
     super(props);
-    const currentCharacter = props.data;
     this.state = {
+      //Data for dynamic checkboxes
       categories: [
-        {id: 'race', value: "Keep Current Race"},
-        {id: 'class', value: "Keep Current Class"},
-        {id: 'background', value: "Keep Current Background"}
+        {
+          id: 'race', 
+          value: "Keep Current Race"
+        },
+        {
+          id: 'class', 
+          value: "Keep Current Class"
+        },
+        {
+          id: 'background', 
+          value: "Keep Current Background"
+        }
+      ],
+      //Data for stored data
+      savedData: [
+        {
+          id: 'savedRace', 
+          value: ""
+        },
+        {
+          id: 'savedClass', 
+          value: ""
+        },
+        {
+          id: 'savedCackground', 
+          value: ""
+        }
       ],
       checkedItems: new Map ()
     }
@@ -30,14 +54,37 @@ class SelectedData extends Component {
     var item = event.target.value;
 
     this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+
+    //Only write data if box is checked
+    switch(item){
+      case 'race':
+        if(isChecked === true)
+          console.log(this.props);
+          //this.setState(savedData{});
+
+        console.log(isChecked);
+        break;
+      case 'class':
+        if(isChecked === true)
+          console.log("class true");
+        console.log(isChecked);
+        break;
+      case 'background':
+        if(isChecked === true)
+          console.log("Back true");
+        console.log(isChecked);
+        break;
+      default:
+        return;
+    }
+
   }
 
 
   //Want to update character generated
   handleSubmit(event) {
-    console.log("See Me?");
-    console.log(this.props.state);
     event.preventDefault();
+    console.log("See me?");
   }
 
 
@@ -63,7 +110,7 @@ class SelectedData extends Component {
           </Row>
         </form>
         <Row>
-          {/*currentCharacter.state*/}
+          Here is the current stored data: 
         </Row>
     </Container>
     );

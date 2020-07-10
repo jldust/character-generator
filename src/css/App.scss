@@ -12,9 +12,14 @@ body {
     text-shadow: $setShadow;
   }
 
-.title, h1, h4{
+.title, h1 , h2{
   font-family: $primaryTitleFont;
+  text-align: center;
   font-weight: 700;
+}
+
+.header{
+  padding-top: 30px;
 }
 
 .icons {

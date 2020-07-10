@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 //Get Compontents & Style
 import '../css/App.scss';
+import Header from './header'
 import Footer from './footer'
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
 
 
-//Get possible Charater Data
+//Get possible Charater Data & Icon Images
 import raceIcon from '../images/race.png';
 import classIcon from '../images/class.png';
 import backgroundsIcon from '../images/backgrounds.png';
@@ -173,11 +174,8 @@ class App extends Component {
     return (
       <Container >
         <Row className="header">
-          <Col md={{ span:8, offset: 3}}>
-            <header>
-              <h1 className="title">D&D Character Generator</h1>
-            </header>
-            <br />
+          <Col>
+            <Header />
           </Col>
         </Row>
         <br />

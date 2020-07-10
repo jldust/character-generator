@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Row, Col } from 'react-bootstrap';
-import logo from '../images/logo.svg'
-import '../css/App.css';
+import '../css/App.scss';
 
 //Get possible Charater Data
 import data from '../data/characters.json'
@@ -35,41 +34,36 @@ class Footer extends Component {
     let backgroudSource = data.dataBackground.map((characters, index) => <li key={index}>{characters}</li>);
 
 
-    console.log(raceSource);
 
     return (
-      <div className="footer">
-        <br />
+      <div>
+      <Container className="footer">
         <div className="source-button">
           <Button onClick={this.handleShow}>Source</Button>
         </div>
-        <div className="logo">
-          Powered by React <img src={logo} className="react-logo" alt="logo" />
-        </div>
-
+      </Container>
+        {/*Pop-up Modal with source text*/}
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Quotes Source</Modal.Title>
+            <Modal.Title className="modal-title">Generator Source Content</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Container>
+            <Container className="modal-body">
               <Row>
                 <Col>
-                  <h4 className="source-header">Race</h4>
+                  <h4 >Race</h4>
                   <ul>
                     {raceSource}
                   </ul>
                 </Col>
                 <Col>
-
-                  <h4 className="source-header">Class</h4>
+                  <h4>Class</h4>
                   <ul>
                     {classSource}
                   </ul>
-
                 </Col>
                 <Col>
-                  <h4 className="source-header">Background</h4>
+                  <h4>Background</h4>
                   <ul>
                     {backgroudSource}
                   </ul>
@@ -77,8 +71,6 @@ class Footer extends Component {
               </Row>
               <Row>By: Jennifer Dust</Row>
             </Container>
-
-
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleClose}>Close</Button>

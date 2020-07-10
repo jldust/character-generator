@@ -8,7 +8,10 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 //Get possible Charater Data
-import data from '../data/characters.json'
+import raceIcon from '../images/race.png';
+import classIcon from '../images/class.png';
+import backgroundsIcon from '../images/backgrounds.png';
+import data from '../data/characters.json';
 
 //Main Application
 class App extends Component {
@@ -53,16 +56,19 @@ class App extends Component {
         {
           id: 'race',
           header: 'Race',
+          icon: raceIcon,
           data: ""
         },
         {
           id: 'class',
           header: 'Class',
+          icon: classIcon,
           data: ""
         },
         {
           id: 'background',
           header: 'Background',
+          icon: backgroundsIcon,
           data: ""
         }
       ],
@@ -165,10 +171,10 @@ class App extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col>
-            <header className="header">
+      <Container >
+        <Row className="header">
+          <Col md={{ span:8, offset: 3}}>
+            <header>
               <h1 className="title">D&D Character Generator</h1>
             </header>
             <br />
@@ -176,10 +182,11 @@ class App extends Component {
         </Row>
         <br />
         {/*Display Area for Current Character*/}
-        <Row>
+        <Row className="displayCharacter">
           {
             this.state.savedData.map((item) => (
-              <Col key={item.id}>
+              <Col className="displayCharacter" key={item.id}>
+                <img className="icons" src={item.icon} alt="Logo" />
                 <h1>{item.header}</h1>
                 <p>{item.data}</p>
               </Col>
@@ -188,10 +195,10 @@ class App extends Component {
         </Row>
         <br />
         {/* Call in Character selection and saved output*/}
-        <Row>
+        <Row className="saveStats">
           {
             this.state.categories.map((item) => (
-              <Col key={item.id}>
+              <Col className="saveStats" key={item.id}>
                 <label>
                   <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
                 </label>
@@ -200,14 +207,15 @@ class App extends Component {
           }
         </Row>
         <Row>
-          <Col>
+          <Col md={{ span: 3, offset:3 }}>
             <Button className="button" onClick={this.handleGenerateCharacter}>Generate Character</Button>
           </Col>
-          <Col>
+          <Col md={{ span: 3}}>
             <Button className="button" onClick={this.handleResetButton}>Start Over?</Button>
           </Col>
         </Row>
         <Row>
+          {/*Add Footer Component*/}
           <Footer />
         </Row>
       </Container>

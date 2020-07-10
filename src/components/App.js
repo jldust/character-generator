@@ -186,7 +186,7 @@ class App extends Component {
           {
             this.state.savedData.map((item) => (
               <Col className="boxes" key={item.id}>
-                <img className="icons" src={item.icon} alt="Logo" />
+                <img className="icons" src={item.icon} alt={item.id} />
                 <h1>{item.header}</h1>
                 <p>{item.data}</p>
               </Col>

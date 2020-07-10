@@ -9,6 +9,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     color: $primaryBodyColor;
+    text-shadow: $setShadow;
   }
 
 .title, h1, h4{
@@ -18,8 +19,8 @@ body {
 
 .icons {
   height: 100%;
+  padding: 20px 0 20px 0;
 }
-
 
 .displayCharacter{
   //Round All corners
@@ -27,10 +28,10 @@ body {
   //Unround Bottom
   @include border-radius-noBottom;
   width: auto;
-  height: 250px;
+  height: 290px;
   background: $backgroundFade;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 .saveStats{
@@ -38,22 +39,20 @@ body {
   @include border-radius(15px); 
   //Unround Top
   @include border-radius-noTop;
-  height: 100px;
+  height: 80px;
   text-align: center;
   background: $backgroundFade;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
+//Control size for added cols 
 .boxes{
   width: auto;
   height: 150px;
   padding-bottom: 1rem;
 }
 
-.modal-title{
+.modal-title, .modal-body{
   color: $primaryModalColor;
-}
-
-.modal-body{
-  color: $primaryModalColor;
+  text-shadow: none;
 }

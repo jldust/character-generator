@@ -8,6 +8,8 @@
 $primaryBodyColor: #ffffff;
 $primaryModalColor: #000000;
 
+$setShadow: 2px 2px  5px #000000;
+
 //Typeface Variables
 $primaryTitleFont: 'Lato', sans-serif;
 $primaryBodyFont: 'Open Sans', sans-serif;
@@ -17,7 +19,7 @@ $primaryBodyFont: 'Open Sans', sans-serif;
 $backgroundImg: url('../images/tavern.jpg');
 
 //Faded Background for Display
-$backgroundFade: rgba(#444343, 0.4);
+$backgroundFade: rgba(#3d2b21, 0.7);
 
 
 //Round all corners to set radius

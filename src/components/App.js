@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 
 //Get Compontents & Style
 import '../css/App.scss';
-//import SelectedData from './SelectedData';
 //import Footer from './footer'
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -17,9 +16,6 @@ class App extends Component {
     super(props);
     this.state = {
       //Hold randomed data
-      race: "",
-      charClass: "",
-      background: "",
       buttons: [
         {
           id: 'inital',
@@ -78,32 +74,14 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleResetButton = this.handleResetButton.bind(this);
     this.updateData = this.updateData.bind(this);
+    this.switchValidation = this.switchValidation.bind(this);
   }
   
     //Something happened with the Checkbox
     handleChange(event) {
       var isChecked = event.target.checked;
       var item = event.target.value;  
-  
-      //this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
-  
-      //Only write data if box is checked
-      switch(item){
-        case 'race':
-          if(isChecked === true)
-            this.updateData(item, this.state.race, this.state.savedData);
-          break;
-        case 'class':
-          if(isChecked === true)
-              this.updateData(item, this.state.charClass, this.state.savedData);
-          break;
-        case 'background':
-          if(isChecked === true)
-            this.updateData(item, this.state.background, this.state.savedData);
-          break;
-        default:
-          return;
-      }  
+
       //Update which boxes were checked
       this.updateData(item, isChecked, this.state.categories);
     }
@@ -118,7 +96,25 @@ class App extends Component {
     });
   }
 
-
+//check which switch needs to function
+  switchValidation (item, selectedData, givenArray){
+    switch(item.id){
+      case 'race':
+        if(item.data === false)
+          this.updateData(item.id, selectedData.randRace, givenArray);
+        break;
+      case 'class':
+        if(item.data === false)
+            this.updateData(item.id, selectedData.randClass, givenArray);
+        break;
+      case 'background':
+        if(item.data === false)
+          this.updateData(item.id, selectedData.randBackground, givenArray);
+        break;
+      default:
+        return;
+    }
+  }
   
 
 
@@ -134,30 +130,18 @@ class App extends Component {
     let randBackground = data.dataBackground[Math.floor(Math.random() * data.dataBackground.length)];
 
     //Set new chracter
-    this.setState({race: randRace, charClass: randClass, background: randBackground});
+    this.setState({randRace, randClass, randBackground});
+
+    //Temporarily store the values generated
+    let tempChar = {randRace, randClass, randBackground};
+    //console.log(tempChar);
 
     this.state.categories.map(item =>{
-
-        //Only write data if box is not checked
-        switch(item.id){
-          case 'race':
-            if(item.data === false)
-              this.updateData(item.id, randRace, this.state.savedData);
-              console.log("See me?");
-            break;
-          case 'class':
-            if(item.data === false)
-                this.updateData(item.id, randClass, this.state.savedData);
-            break;
-          case 'background':
-            if(item.data === false)
-              this.updateData(item.id, randBackground, this.state.savedData);
-            break;
-          default:
-            return;
-        }  
-        return {};
+      this.switchValidation(item, tempChar, this.state.savedData);
+      return{};
     });
+
+    console.log(this.state);
 
   }
 

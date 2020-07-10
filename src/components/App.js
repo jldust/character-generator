@@ -11,169 +11,121 @@ import { Container, Row, Col } from 'react-bootstrap';
 //Get possible Charater Data
 import data from '../data/characters.json'
 
-
-
-
-//Prompt user if they would like to store any of the current values and roll again
-//Select parts of character to keep and re-generate the rest
-class SelectedData extends Component {
-  constructor() {
-    super();
-    this.state = {
-      //Data for dynamic checkboxes
-      categories: [
-        {
-          id: 'race', 
-          value: "Keep Current Race"
-        },
-        {
-          id: 'class', 
-          value: "Keep Current Class"
-        },
-        {
-          id: 'background', 
-          value: "Keep Current Background"
-        }
-      ],
-      //Data for stored data
-      savedData: [
-        {
-          id: 'race', 
-          value: ""
-        },
-        {
-          id: 'class', 
-          value: ""
-        },
-        {
-          id: 'background', 
-          value: ""
-        }
-      ],
-      checkedItems: new Map ()
-    }
-
-    //Attach Handlers for Checkboxes
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  //Something happened with the Checkbox
-  handleChange(event) {
-    var isChecked = event.target.checked;
-    var item = event.target.value;
-
-    this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
-
-    //Only write data if box is checked
-    switch(item){
-      case 'race':
-        if(isChecked === true)
-          console.log(this.props);
-          //this.setState(id: this.props);
-
-        console.log(isChecked);
-        break;
-      case 'class':
-        if(isChecked === true)
-          console.log("class true");
-        console.log(isChecked);
-        break;
-      case 'background':
-        if(isChecked === true)
-          console.log("Back true");
-        console.log(isChecked);
-        break;
-      default:
-        return;
-    }
-
-  }
-
-
-  //Want to update character generated
-  handleSubmit(event) {
-    event.preventDefault();
-    console.log("See me?");
-  }
-
-
-  render() {
-    return (
-      <Container>
-        <form onSubmit={this.handleSubmit}>
-          <Row>{
-            this.state.categories.map((item) => (
-              <Col key={item.id}>
-                <label>
-                  <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
-                </label>
-              </Col>
-            ))
-          }
-          </Row>
-          <Row>
-            <Col>
-              <br />
-              <input type="submit" value="Re-Generate with Seletions" />
-            </Col>
-          </Row>
-        </form>
-        <Row>
-          Here is the current stored data: 
-        </Row>
-    </Container>
-    );
-  }
-}
-
-
-//Current Character data stored
-class SavedCharacter extends Component {
-  render() {
-    return (
-      <div>
-        <Row>
-          <p>This is your current character: A </p>
-        </Row>
-          </div>
-    );
-  }
-}
-
 //Main Application
 class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
       //Hold randomed data
-      currentChar: {
-        race: "",
-        charClass: "",
-        background: ""
-      },
+      race: "",
+      charClass: "",
+      background: "",
+      buttons: [
+        {
+          id: 'inital',
+          value: 'Generate Character'
+        },
+        {
+          id:'resubmit',
+          value: 'Re-Generate Character'
+        },
+        {
+          id: 'clear',
+          value: 'Clear'
+        }
+      ],
+      //Data for dynamic checkboxes
+      categories: [
+        {
+          id: 'race', 
+          value: "Keep Current Race",
+          data: false
+        },
+        {
+          id: 'class', 
+          value: "Keep Current Class",
+          data: false
+        },
+        {
+          id: 'background', 
+          value: "Keep Current Background",
+          data: false
+        }
+      ],
       //Data for stored data
       savedData: [
         {
           id: 'race', 
-          value: ""
+          header: 'Race',
+          data: ""
         },
         {
           id: 'class', 
-          value: ""
+          header: 'Class',
+          data: ""
         },
         {
           id: 'background', 
-          value: ""
+          header: 'Background',
+          data: ""
         }
-      ]
-    };
+      ],
+      checkedItems: new Map ()
+    }
   
     //Bind Checkboxes & Generator Button
     this.handleGenerateCharacter = this.handleGenerateCharacter.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleResetButton = this.handleResetButton.bind(this);
+    this.updateData = this.updateData.bind(this);
+  }
+  
+    //Something happened with the Checkbox
+    handleChange(event) {
+      var isChecked = event.target.checked;
+      var item = event.target.value;  
+  
+      //this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
+  
+      //Only write data if box is checked
+      switch(item){
+        case 'race':
+          if(isChecked === true)
+            this.updateData(item, this.state.race, this.state.savedData);
+          break;
+        case 'class':
+          if(isChecked === true)
+              this.updateData(item, this.state.charClass, this.state.savedData);
+          break;
+        case 'background':
+          if(isChecked === true)
+            this.updateData(item, this.state.background, this.state.savedData);
+          break;
+        default:
+          return;
+      }  
+      //Update which boxes were checked
+      this.updateData(item, isChecked, this.state.categories);
+    }
+
+  
+  //Handle updating the stored data
+  updateData(item, currentData, givenArray){
+    givenArray.map(index => {
+      if(index.id === item)
+        index.data = currentData
+      return index.data;
+    });
   }
 
+
+  
+
+
   //Randomly generate a new character, compare locked choices
-  handleGenerateCharacter(){
+  handleGenerateCharacter(event){
+    //Stop Submit from reloading the page
+    event.preventDefault();
     //Random a Race
     let randRace = data.dataRace[Math.floor(Math.random() * data.dataRace.length)];
     //Random a Class
@@ -182,8 +134,44 @@ class App extends Component {
     let randBackground = data.dataBackground[Math.floor(Math.random() * data.dataBackground.length)];
 
     //Set new chracter
-    this.setState ({race: randRace, charClass: randClass, background: randBackground});
+    this.setState({race: randRace, charClass: randClass, background: randBackground});
+
+    this.state.categories.map(item =>{
+
+        //Only write data if box is not checked
+        switch(item.id){
+          case 'race':
+            if(item.data === false)
+              this.updateData(item.id, randRace, this.state.savedData);
+              console.log("See me?");
+            break;
+          case 'class':
+            if(item.data === false)
+                this.updateData(item.id, randClass, this.state.savedData);
+            break;
+          case 'background':
+            if(item.data === false)
+              this.updateData(item.id, randBackground, this.state.savedData);
+            break;
+          default:
+            return;
+        }  
+        return {};
+    });
+
   }
+
+  //Reset application
+  handleResetButton(event){
+    event.preventDefault();
+    console.log(this.state.savedData);
+    this.setState(state => {
+      const savedData = state.savedData.map(item => 1);
+    return{
+      savedData,
+    };
+  });
+  };
 
   render() {
     return (
@@ -201,30 +189,46 @@ class App extends Component {
           {/*Display Area for Current Character*/}
           <div>
           <Button className="button" onClick={this.handleGenerateCharacter}>Generate New Character</Button>
-            <Row>
-              <Col>
-                <h1>Race</h1>
-                {this.state.race}
+            {/*Render current data to users*/}
+            <Row>{
+            this.state.savedData.map((item) => (
+              <Col key={item.id}>
+                <h1>{item.header}</h1>
+                <p>{item.data}</p>
               </Col>
-              <Col>
-                <h1>Class</h1>
-                {this.state.charClass}
-              </Col>
-              <Col>
-                <h1>Background</h1>
-                {this.state.background}
-              </Col>
-            </Row>
+            ))
+          }
+          </Row>
           </div>
           <br />
-        </Container>
         {/* Call in Character selection and saved output*/}
-          <SelectedData 
-            savedRace = {this.state.race} 
-            savedClass = {this.state.charClass}
-            savedBackground = {this.state.background}
-            />
-
+        <form onSubmit={this.handleGenerateCharacter}>
+          <Row>{
+            this.state.categories.map((item) => (
+              <Col key={item.id}>
+                <label>
+                  <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
+                </label>
+              </Col>
+            ))
+          }
+          </Row>
+          <Row>
+            <Col>
+              <br />
+              <input type="submit" id="submit-button" value="Re-Generate with Seletions" />
+            </Col>
+          </Row>
+        </form>
+        <Row>
+          Here is the current stored data: 
+          {this.state.savedData.map((item) => (
+          <Col key={item.id}>
+            <p>{item.data}</p>
+          </Col>
+          ))}
+        </Row>
+    </Container>
         {/* <Character data={data} /> */}
         {/* <Footer data={data} />*/}
        </div>

@@ -1,0 +1,49 @@
+/*
+    This is the main file for holding generator variables
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans&display=swap');
+
+//Text Variables
+$primaryBodyColor: #ffffff;
+$primaryModalColor: #000000;
+
+//Typeface Variables
+$primaryTitleFont: 'Lato', sans-serif;
+$primaryBodyFont: 'Open Sans', sans-serif;
+
+
+//Background
+$backgroundImg: url('../images/tavern.jpg');
+
+//Faded Background for Display
+$backgroundFade: rgba(#444343, 0.4);
+
+
+//Round all corners to set radius
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+       -moz-border-radius: $radius;
+        -ms-border-radius: $radius;
+            border-radius: $radius;
+  }
+
+  //Don't round top corners
+  @mixin border-radius-noTop {
+    -webkit-border-top-left-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+    -moz-border-radius-topleft: 0px;
+    -moz-border-radius-topright: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+//Don't round bottom corners
+@mixin border-radius-noBottom {
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}

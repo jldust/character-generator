@@ -1,38 +1,59 @@
 @import "~bootstrap/scss/bootstrap";
+@import  "./variables.scss";
+
 
 body {
-    margin: 0;
-    padding: 0;
     font-size: 1.5em;
-    font-family: sans-serif;
-    background-image: url('../images/tavern.jpg');
+    font-family: $primaryBodyFont;
+    background-image: $backgroundImg;
     background-repeat: no-repeat;
     background-size: cover;
-    color: #ffffff;
+    color: $primaryBodyColor;
   }
 
-img {
-  width: auto;
-  height: 50%;
+.title, h1, h4{
+  font-family: $primaryTitleFont;
+  font-weight: 700;
 }
 
+.icons {
+  height: 100%;
+}
+
+
 .displayCharacter{
+  //Round All corners
+  @include border-radius(5px);
+  //Unround Bottom
+  @include border-radius-noBottom;
   width: auto;
-  height: 150px;
+  height: 250px;
+  background: $backgroundFade;
+  text-align: center;
+  padding-top: 20px;
 }
 
 .saveStats{
+  //Round All Corners
+  @include border-radius(15px); 
+  //Unround Top
+  @include border-radius-noTop;
   height: 100px;
+  text-align: center;
+  background: $backgroundFade;
+  margin-bottom: 2rem;
 }
 
-.row.header {
-  height: 20%;
+.boxes{
+  width: auto;
+  height: 150px;
+  padding-bottom: 1rem;
 }
 
 .modal-title{
-  color: #000000;
+  color: $primaryModalColor;
 }
 
 .modal-body{
-  color: #000000;
+  color: $primaryModalColor;
 }

@@ -185,7 +185,7 @@ class App extends Component {
         <Row className="displayCharacter">
           {
             this.state.savedData.map((item) => (
-              <Col className="displayCharacter" key={item.id}>
+              <Col className="boxes" key={item.id}>
                 <img className="icons" src={item.icon} alt="Logo" />
                 <h1>{item.header}</h1>
                 <p>{item.data}</p>
@@ -193,12 +193,11 @@ class App extends Component {
             ))
           }
         </Row>
-        <br />
         {/* Call in Character selection and saved output*/}
         <Row className="saveStats">
           {
             this.state.categories.map((item) => (
-              <Col className="saveStats" key={item.id}>
+              <Col className="boxes" key={item.id}>
                 <label>
                   <input type="checkbox" value={item.id} onChange={this.handleChange} /> {item.value}
                 </label>

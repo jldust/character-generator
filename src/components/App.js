@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 //Get Compontents & Style
 import '../css/App.scss';
-//import Footer from './footer'
+import Footer from './footer'
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -12,38 +12,38 @@ import data from '../data/characters.json'
 
 //Main Application
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       //Hold randomed data
       buttons: [
         {
           id: 'inital',
-          value: 'Generate Character'
+          value: 'Generate Character',
         },
         {
-          id:'resubmit',
-          value: 'Re-Generate Character'
+          id: 'resubmit',
+          value: 'Re-Generate Character',
         },
         {
           id: 'clear',
-          value: 'Clear'
+          value: 'Start Over?',
         }
       ],
       //Data for dynamic checkboxes
       categories: [
         {
-          id: 'race', 
+          id: 'race',
           value: "Keep Current Race",
           data: false
         },
         {
-          id: 'class', 
+          id: 'class',
           value: "Keep Current Class",
           data: false
         },
         {
-          id: 'background', 
+          id: 'background',
           value: "Keep Current Background",
           data: false
         }
@@ -51,75 +51,76 @@ class App extends Component {
       //Data for stored data
       savedData: [
         {
-          id: 'race', 
+          id: 'race',
           header: 'Race',
           data: ""
         },
         {
-          id: 'class', 
+          id: 'class',
           header: 'Class',
           data: ""
         },
         {
-          id: 'background', 
+          id: 'background',
           header: 'Background',
           data: ""
         }
       ],
-      checkedItems: new Map ()
+      checkedItems: new Map()
     }
-  
+
     //Bind Checkboxes & Generator Button
     this.handleGenerateCharacter = this.handleGenerateCharacter.bind(this);
+    //Button handler for Checkboxes
     this.handleChange = this.handleChange.bind(this);
     this.handleResetButton = this.handleResetButton.bind(this);
     this.updateData = this.updateData.bind(this);
     this.switchValidation = this.switchValidation.bind(this);
   }
-  
-    //Something happened with the Checkbox
-    handleChange(event) {
-      var isChecked = event.target.checked;
-      var item = event.target.value;  
 
-      //Update which boxes were checked
-      this.updateData(item, isChecked, this.state.categories);
-    }
+  //Something happened with the Checkbox
+  handleChange(event) {
+    var isChecked = event.target.checked;
+    var item = event.target.value;
 
-  
+    //Update which boxes were checked
+    this.updateData(item, isChecked, this.state.categories);
+  }
+
+
   //Handle updating the stored data
-  updateData(item, currentData, givenArray){
+  updateData(item, currentData, givenArray) {
     givenArray.map(index => {
-      if(index.id === item)
+      if (index.id === item)
         index.data = currentData
-      return index.data;
+      return index;
     });
   }
 
-//check which switch needs to function
-  switchValidation (item, selectedData, givenArray){
-    switch(item.id){
+  //check which switch needs to function
+  switchValidation(item, selectedData, givenArray) {
+    switch (item.id) {
       case 'race':
-        if(item.data === false)
+        if (item.data === false)
           this.updateData(item.id, selectedData.randRace, givenArray);
         break;
       case 'class':
-        if(item.data === false)
-            this.updateData(item.id, selectedData.randClass, givenArray);
+        if (item.data === false)
+          this.updateData(item.id, selectedData.randClass, givenArray);
         break;
       case 'background':
-        if(item.data === false)
+        if (item.data === false)
           this.updateData(item.id, selectedData.randBackground, givenArray);
         break;
       default:
         return;
     }
   }
-  
+
 
 
   //Randomly generate a new character, compare locked choices
-  handleGenerateCharacter(event){
+  handleGenerateCharacter(event) {
     //Stop Submit from reloading the page
     event.preventDefault();
     //Random a Race
@@ -129,52 +130,54 @@ class App extends Component {
     //Random a Background
     let randBackground = data.dataBackground[Math.floor(Math.random() * data.dataBackground.length)];
 
-    //Set new chracter
-    this.setState({randRace, randClass, randBackground});
-
     //Temporarily store the values generated
-    let tempChar = {randRace, randClass, randBackground};
+    let tempChar = { randRace, randClass, randBackground };
     //console.log(tempChar);
 
-    this.state.categories.map(item =>{
+    this.state.categories.map(item => {
       this.switchValidation(item, tempChar, this.state.savedData);
-      return{};
+      return { item };
     });
 
-    console.log(this.state);
-
+    //Re-render screen state
+    this.setState({});
   }
 
   //Reset application
-  handleResetButton(event){
-    event.preventDefault();
-    console.log(this.state.savedData);
-    this.setState(state => {
-      const savedData = state.savedData.map(item => 1);
-    return{
-      savedData,
-    };
-  });
+  handleResetButton(event) {
+    let clearText = [{ id: 'race', data: '' }, { id: 'class', data: '' }, { id: 'background', data: '' }];
+    let clearBoxes = [{ id: 'race', data: false }, { id: 'class', data: false }, { id: 'background', data: false }];
+    //Clear out displayed text
+    clearText.map(item => {
+      this.updateData(item.id, item.data, this.state.savedData);
+      return { item };
+    });
+
+    //Reset checkboxes
+    clearBoxes.map(item => {
+      this.updateData(item.id, item.data, this.state.categories);
+      return { item };
+    });
+    console.log(this.state.categories);
+    //Reload State
+    this.setState({});
   };
 
   render() {
     return (
-      <div>
-        <Container>
-          <Row>
-            <Col>
+      <Container>
+        <Row>
+          <Col>
             <header className="header">
-            <h1 className="title">D&D Character Generator</h1>
+              <h1 className="title">D&D Character Generator</h1>
             </header>
             <br />
-            </Col>
-          </Row>
-          <br />
-          {/*Display Area for Current Character*/}
-          <div>
-          <Button className="button" onClick={this.handleGenerateCharacter}>Generate New Character</Button>
-            {/*Render current data to users*/}
-            <Row>{
+          </Col>
+        </Row>
+        <br />
+        {/*Display Area for Current Character*/}
+        <Row>
+          {
             this.state.savedData.map((item) => (
               <Col key={item.id}>
                 <h1>{item.header}</h1>
@@ -182,12 +185,11 @@ class App extends Component {
               </Col>
             ))
           }
-          </Row>
-          </div>
-          <br />
+        </Row>
+        <br />
         {/* Call in Character selection and saved output*/}
-        <form onSubmit={this.handleGenerateCharacter}>
-          <Row>{
+        <Row>
+          {
             this.state.categories.map((item) => (
               <Col key={item.id}>
                 <label>
@@ -196,26 +198,19 @@ class App extends Component {
               </Col>
             ))
           }
-          </Row>
-          <Row>
-            <Col>
-              <br />
-              <input type="submit" id="submit-button" value="Re-Generate with Seletions" />
-            </Col>
-          </Row>
-        </form>
-        <Row>
-          Here is the current stored data: 
-          {this.state.savedData.map((item) => (
-          <Col key={item.id}>
-            <p>{item.data}</p>
-          </Col>
-          ))}
         </Row>
-    </Container>
-        {/* <Character data={data} /> */}
-        {/* <Footer data={data} />*/}
-       </div>
+        <Row>
+          <Col>
+            <Button className="button" onClick={this.handleGenerateCharacter}>Generate Character</Button>
+          </Col>
+          <Col>
+            <Button className="button" onClick={this.handleResetButton}>Start Over?</Button>
+          </Col>
+        </Row>
+        <Row>
+          <Footer />
+        </Row>
+      </Container>
     );
   }
 }
